@@ -1,5 +1,13 @@
 .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center !important;
     margin: 50px 0;
+}
+
+.cardsContainer {
+    justify-content: center;
 }
 
 .card {
@@ -14,4 +22,10 @@
 }
 .deaths {
     border-bottom: 10px solid rgba(255, 0, 0, 0.5);
+}
+
+@media (max-width: 770px) {
+    .card {
+        margin: 2% 0 !important;
+    }
 }
