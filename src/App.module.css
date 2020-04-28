@@ -10,18 +10,28 @@ body {
 }
 
 .image {
-    width: 370px;
-    margin-top: 50px;
+        vertical-align: bottom;
+        margin-top: 50px;
 }
 
-
+.logo {
+    font-weight: bold !important;
+    max-width: 100%;
+    font-size: 6em !important;
+    white-space: nowrap;
+}
 
 @media (max-width: 770px) {
     .container {
         margin: 0 10%;
     }
 
+    .logo {
+        white-space: nowrap;
+        font-size: 4em !important;
+    }
+
     .image {
-        width: 100%;
+        height: 70px;
     }
 }
