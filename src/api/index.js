@@ -1,6 +1,8 @@
 import axios from 'axios'
 
 const url = 'https://covid19.mathdro.id/api'
+const todayApi = 'https://api.covid19api.com'
+
 
 export const fetchData = async (country) => {
   let changeableUrl = url
@@ -28,13 +30,11 @@ export const fetchDailyData = async () => {
 
     const { data } = await axios.get(`${url}/daily`)
 
-    const modifiedData = data.map((dailyData) => ({
+    return data.map((dailyData) => ({
       confirmed: dailyData.confirmed.total,
       deaths: dailyData.deaths.total,
       date: dailyData.reportDate
     }))
-
-    return modifiedData
 
   } catch (e) {
     console.log(e)
@@ -45,8 +45,54 @@ export const fetchCountries = async () => {
   try {
     const {data: {countries}} = await axios.get(`${url}/countries`)
 
-    return countries.map((country) => country.name)
+    // return countries.map((country) => country.name)
+    return countries.map((country) => ({
+      name: country.name,
+      iso2: country.iso2
+    }))
   } catch (e) {
     console.log(e)
+  }
+}
+
+export const fetchTodayData = async () => {
+  try {
+    const {data: {Global: {NewConfirmed, NewRecovered, NewDeaths}}} = await axios.get(`${todayApi}/summary`)
+
+    return {NewConfirmed, NewRecovered, NewDeaths}
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+
+export const fetchTodayByCountryData = async (country) => {
+  if (!country) {
+    return await fetchTodayData()
+  }
+  try {
+    const {data: {Countries}} = await axios.get(`${todayApi}/summary`)
+
+    const modifiedData = Countries.filter((c) => c["CountryCode"] === country).map((c) => ({
+      NewConfirmed: c.NewConfirmed,
+      NewRecovered: c.NewRecovered,
+      NewDeaths: c.NewDeaths
+    }))[0]
+
+    if (!modifiedData) {
+      return {
+        NewConfirmed: 0,
+        NewRecovered: 0,
+        NewDeaths: 0
+      }
+    }
+
+    return modifiedData
+  } catch (e) {
+    return {
+      NewConfirmed: 0,
+      NewRecovered: 0,
+      NewDeaths: 0
+    }
   }
 }

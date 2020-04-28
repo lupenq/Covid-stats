@@ -14,6 +14,10 @@
     margin: 0 2% !important;
 }
 
+.daily  {
+    vertical-align: super;
+}
+
 .infected {
     border-bottom: 10px solid rgba(0, 0, 255, 0.5);
 }

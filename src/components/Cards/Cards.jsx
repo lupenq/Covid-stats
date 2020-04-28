@@ -5,7 +5,7 @@ import {Card, CardContent, Typography, Grid} from '@material-ui/core'
 
 import styles from './Cards.module.css'
 
-const Cards = ({data: {confirmed, recovered, deaths, lastUpdate}}) => {
+const Cards = ({data: {confirmed, recovered, deaths, lastUpdate, NewConfirmed, NewRecovered, NewDeaths}}) => {
   if (!confirmed) {
     return 'Loading...'
   }
@@ -18,7 +18,7 @@ const Cards = ({data: {confirmed, recovered, deaths, lastUpdate}}) => {
             <Typography color="textSecondary" gutterBottom>Infected</Typography>
             <Typography variant="h5">
               <CountUp start={0} end={confirmed.value} duration={2.5} separator="," />
-              {/* TODO: bylastday */}
+              <Typography variant="caption" className={styles.daily} display="inline">{` +${NewConfirmed.toLocaleString('en-IN')}`}</Typography>
             </Typography>
             <Typography color="textSecondary">{new Date(lastUpdate).toDateString()}</Typography>
             <Typography variant="body2">Number of active cases of COVID19</Typography>
@@ -29,7 +29,8 @@ const Cards = ({data: {confirmed, recovered, deaths, lastUpdate}}) => {
             <Typography color="textSecondary" gutterBottom>Recovered</Typography>
             <Typography variant="h5">
               <CountUp start={0} end={recovered.value} duration={2.5} separator="," />
-            </Typography>
+              <Typography variant="caption" className={styles.daily} display="inline">{` +${NewRecovered.toLocaleString('en-IN')}`}</Typography>
+            </Typography> 
             <Typography color="textSecondary">{new Date(lastUpdate).toDateString()}</Typography>
             <Typography variant="body2">Number of recoveries cases of COVID19</Typography>
           </CardContent>
@@ -39,6 +40,7 @@ const Cards = ({data: {confirmed, recovered, deaths, lastUpdate}}) => {
             <Typography color="textSecondary" gutterBottom>Deaths</Typography>
             <Typography variant="h5">
               <CountUp start={0} end={deaths.value} duration={2.5} separator="," />
+              <Typography variant="caption" className={styles.daily} display="inline">{` +${NewDeaths.toLocaleString('en-IN')}`}</Typography>
             </Typography>
             <Typography color="textSecondary">{new Date(lastUpdate).toDateString()}</Typography>
             <Typography variant="body2">Number of deaths cases of COVID19</Typography>
