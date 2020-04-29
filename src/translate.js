@@ -35,7 +35,7 @@ const TRANSLATE =  {
       },
       recovered: {
         title: 'Recovered',
-        description: 'Number of recoveries cases of COVID-19'
+        description: `Number of recoveries cases of COVID‑19`
       },
       deaths: {
         title: 'Deaths',

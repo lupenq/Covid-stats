@@ -11,7 +11,8 @@ import {LanguageContext} from '../../Reducers/reducer'
 const Cards = ({data: {confirmed, recovered, deaths, lastUpdate, NewConfirmed, NewRecovered, NewDeaths}}) => {
   const {state} = useContext(LanguageContext);
 
-  const optionsDate = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+  // const optionsDate = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+  const optionsDate = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric'};
 
   if (!confirmed) {
     return 'Loading...'
