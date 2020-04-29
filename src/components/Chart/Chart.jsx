@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import {fetchDailyData} from '../../api'
 import { Line, Bar } from 'react-chartjs-2'
 
 import styles from './Chart.module.css'
+import TRANSLATE from '../../translate'
+import {LanguageContext} from '../../Reducers/reducer'
 
 const Chart = ({data: {recovered, confirmed, deaths}, country}) => {
   const [dailyData, setDailyData] = useState([])
+  const {state} = useContext(LanguageContext);
 
   useEffect(() => {
     const fetchAPI = async () => {
@@ -23,12 +26,12 @@ const Chart = ({data: {recovered, confirmed, deaths}, country}) => {
         labels: dailyData.map(({date}) => date),
         datasets: [{
           data: dailyData.map(({confirmed}) => confirmed),
-          label: 'Infected',
+          label: TRANSLATE[state.language].cards.infected.title,
           borderColor: '#3333ff',
           fill: true
         }, {
           data: dailyData.map(({deaths}) => deaths),
-          label: 'Infected',
+          label: TRANSLATE[state.language].cards.deaths.title,
           borderColor: 'red',
           backgroundColor: 'rgba(255, 0, 0, .5)',
           fill: true
@@ -42,7 +45,7 @@ const Chart = ({data: {recovered, confirmed, deaths}, country}) => {
       ? (
         <Bar
           data={{
-            labels: [`Infected`, `Recovered`, `Deaths`],
+            labels: [TRANSLATE[state.language].cards.infected.title, TRANSLATE[state.language].cards.recovered.title, TRANSLATE[state.language].cards.deaths.title],
             datasets: [{
               label: `People`,
               backgroundColor: [`rgba(0, 0, 255, 0.5)`, `rgba(0, 255, 0, 0.5)`, `rgba(255, 0, 0, 0.5)`],
@@ -51,7 +54,7 @@ const Chart = ({data: {recovered, confirmed, deaths}, country}) => {
           }}
           options={{
             legend: {display: false},
-            title: {display: true, text: `Current state in ${country}`}
+            title: {display: true, text: `${TRANSLATE[state.language].cards.chartTitle} ${country}`}
           }}
         />
       ) : null

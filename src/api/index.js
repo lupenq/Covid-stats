@@ -1,8 +1,8 @@
 import axios from 'axios'
+import {getName, registerLocale} from 'i18n-iso-countries'
 
 const url = 'https://covid19.mathdro.id/api'
 const todayApi = 'https://api.covid19api.com'
-
 
 export const fetchData = async (country) => {
   let changeableUrl = url
@@ -48,12 +48,17 @@ export const fetchCountries = async () => {
     // return countries.map((country) => country.name)
     return countries.map((country) => ({
       name: country.name,
-      iso2: country.iso2
+      iso2: country.iso2,
+      ruName: getName(country.iso2, "ru")
     }))
   } catch (e) {
     console.log(e)
   }
 }
+
+registerLocale(require("i18n-iso-countries/langs/ru.json"));
+
+
 
 export const fetchTodayData = async () => {
   try {

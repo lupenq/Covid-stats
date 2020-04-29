@@ -1,6 +1,7 @@
-import React from 'react'
+import React, {useState, useEffect, useReducer} from 'react'
 
-import { Cards, Chart, CountryPicker} from './components'
+import {LanguageContext, initialLanguageState, languageReducer} from './Reducers/reducer'
+import { Cards, Chart, CountryPicker, LanguagePicker} from './components'
 import styles from './App.module.css'
 import {fetchData, fetchTodayByCountryData, fetchTodayData} from './api'
 import {Typography} from '@material-ui/core'
@@ -8,41 +9,43 @@ import {Typography} from '@material-ui/core'
 import microbe from './images/microbe.svg'
 
 
-class App extends React.Component {
-  state = {
-    data: {},
-    country: ''
-  }
+const App = () => {
+  const [data, setData] = useState({})
+  const [country, setCountry] = useState('')
 
+  const [state, dispatch] = useReducer(languageReducer, initialLanguageState);
 
-  async componentDidMount() {
-    const fetchedData = await fetchData()
-    const fetchedTodayData = await fetchTodayData()
+  useEffect(() => {
+    const fetchAPI = async () => {
+      setData({...await fetchData(), ...await fetchTodayData()})
+    }
+    dispatch({type: localStorage.getItem('language')})
+    fetchAPI()
+  }, [])
 
+  useEffect(() => {
+    localStorage.setItem('language', state.language);
+  }, [state])
 
-
-    this.setState({data: {...fetchedData, ...fetchedTodayData}})
-  }
-
-  handleCountryChange = async (country) => {
+  const handleCountryChange = async (country) => {
     const fetchedData = await fetchData(country)
     const fetchedTodayByCountryData = await fetchTodayByCountryData(country)
 
-    this.setState({data: {...fetchedData, ...fetchedTodayByCountryData}, country})
+    setData({...fetchedData, ...fetchedTodayByCountryData})
+    setCountry(country)
   }
-
-  render() {
-    const {data, country} = this.state
 
     return (
-      <div className={styles.container}>
-        <Typography variant="h1" align="center" className={styles.logo}>C<img src={microbe} className={styles.image} alt="COVID-19"/>VID-19</Typography>
-        <Cards data={data} />
-        <CountryPicker data={data} handleCountryChange={this.handleCountryChange} />
-        <Chart data={data} country={country}/>
-      </div>
+      <LanguageContext.Provider value={{dispatch, state}}>
+          <div className={styles.container}>
+            <LanguagePicker />
+            <Typography variant="h1" align="center" className={styles.logo}>C<img src={microbe} className={styles.image} alt="COVID-19"/>VID-19</Typography>
+            <Cards data={data} />
+            <CountryPicker data={data} handleCountryChange={handleCountryChange} />
+            <Chart data={data} country={country}/>
+          </div>
+      </LanguageContext.Provider>
     )
-  }
 }
 
 export default App
