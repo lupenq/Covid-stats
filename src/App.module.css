@@ -16,7 +16,6 @@ body {
 
 .logo {
     font-weight: bold !important;
-    max-width: 100%;
     font-size: 6em !important;
     white-space: nowrap;
 }
