@@ -26,7 +26,7 @@ const Cards = ({data: {confirmed, recovered, deaths, lastUpdate, NewConfirmed, N
             <Typography color="textSecondary" gutterBottom>{TRANSLATE[state.language].cards.infected.title}</Typography>
             <Typography variant="h5">
               <CountUp start={0} end={confirmed.value} duration={2.5} separator="," />
-              <Typography variant="caption" className={styles.daily} display="inline">{` +${NewConfirmed.toLocaleString('en-IN')}`}</Typography>
+              <Typography variant="caption" className={styles.daily} display="inline">{` +${NewConfirmed.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`}</Typography>
             </Typography>
             <Typography color="textSecondary">{new Date(lastUpdate).toLocaleDateString(state.language, optionsDate)}</Typography>
             <Typography variant="body2">{TRANSLATE[state.language].cards.infected.description}</Typography>
@@ -37,7 +37,7 @@ const Cards = ({data: {confirmed, recovered, deaths, lastUpdate, NewConfirmed, N
             <Typography color="textSecondary" gutterBottom>{TRANSLATE[state.language].cards.recovered.title}</Typography>
             <Typography variant="h5">
               <CountUp start={0} end={recovered.value} duration={2.5} separator="," />
-              <Typography variant="caption" className={styles.daily} display="inline">{` +${NewRecovered.toLocaleString('en-IN')}`}</Typography>
+              <Typography variant="caption" className={styles.daily} display="inline">{` +${NewRecovered.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`}</Typography>
             </Typography>
             <Typography color="textSecondary">{new Date(lastUpdate).toLocaleDateString(state.language, optionsDate)}</Typography>
             <Typography variant="body2">{TRANSLATE[state.language].cards.recovered.description}</Typography>
@@ -48,7 +48,7 @@ const Cards = ({data: {confirmed, recovered, deaths, lastUpdate, NewConfirmed, N
             <Typography color="textSecondary" gutterBottom>{TRANSLATE[state.language].cards.deaths.title}</Typography>
             <Typography variant="h5">
               <CountUp start={0} end={deaths.value} duration={2.5} separator="," />
-              <Typography variant="caption" className={styles.daily} display="inline">{` +${NewDeaths.toLocaleString('en-IN')}`}</Typography>
+              <Typography variant="caption" className={styles.daily} display="inline">{` +${NewDeaths.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`}</Typography>
             </Typography>
             <Typography color="textSecondary">{new Date(lastUpdate).toLocaleDateString(state.language, optionsDate)}</Typography>
             <Typography variant="body2">{TRANSLATE[state.language].cards.deaths.description}</Typography>
